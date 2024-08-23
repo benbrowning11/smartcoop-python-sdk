@@ -23,6 +23,8 @@ class SmartCoopClient:
         headers = self._get_headers()
         response = requests.post(url, headers=headers, json=json)
         response.raise_for_status()
+        if response.status_code == 204: # No content
+            return None
         return response.json()
 
     def patch(self, endpoint: str, json=None):
