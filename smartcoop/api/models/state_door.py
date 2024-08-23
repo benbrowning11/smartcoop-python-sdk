@@ -10,8 +10,6 @@ class StateDoor:
     lastCloseTime: str
     fault: str
     lightLevel: int
-    displayLine1: str
-    displayLine2: str       
 
     @staticmethod
     def from_json(json_data: dict[str, Any]) -> StateDoor:
@@ -20,7 +18,5 @@ class StateDoor:
             lastOpenTime=json_data['lastOpenTime'],
             lastCloseTime=json_data['lastCloseTime'],
             fault=json_data['fault'],
-            lightLevel=json_data['lightLevel'],
-            displayLine1=json_data['displayLine1'],
-            displayLine2=json_data['displayLine2']
+            lightLevel=json_data['lightLevel']
         )

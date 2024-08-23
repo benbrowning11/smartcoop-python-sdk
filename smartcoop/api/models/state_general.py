@@ -11,6 +11,8 @@ class StateGeneral:
     batteryLevel: int
     powerSource: str
     uptime: int
+    displayLine1: str
+    displayLine2: str   
 
     @staticmethod
     def from_json(json_data: dict[str, Any]) -> StateGeneral:
@@ -20,5 +22,7 @@ class StateGeneral:
             firmwareLastCheck=json_data['firmwareLastCheck'],
             batteryLevel=json_data['batteryLevel'],
             powerSource=json_data['powerSource'],
-            uptime=json_data['uptime']
+            uptime=json_data['uptime'],
+            displayLine1=json_data.get('displayLine1', ''),
+            displayLine2=json_data.get('displayLine2', '')
         )
