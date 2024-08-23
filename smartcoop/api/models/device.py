@@ -1,10 +1,12 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
 from typing import List, Any
 from .action import Action
 from .configuration import Configuration
 from .state import State
 
-@dataclass
+@dataclass(frozen=True)
 class Device:
     deviceId: str
     name: str
@@ -14,7 +16,7 @@ class Device:
     actions: List[Action]
 
     @staticmethod
-    def from_json(json_data: Any) -> 'Device':
+    def from_json(json_data: dict[str, Any]) -> Device:
         return Device(
             deviceId=json_data['deviceId'],
             name=json_data['name'],

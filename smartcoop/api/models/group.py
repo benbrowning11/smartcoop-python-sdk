@@ -1,9 +1,11 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
 from typing import Optional, List, Any
 from .device import Device 
 from .user import User
 
-@dataclass
+@dataclass(frozen=True)
 class Group:
     groupId: str
     groupName: str
@@ -13,7 +15,7 @@ class Group:
     access: Optional[str] = None
 
     @staticmethod
-    def from_json(json_data: Any) -> 'Group':
+    def from_json(json_data: dict[str, Any]) -> Group:
         return Group(
             groupId=json_data['groupId'],
             groupName=json_data['groupName'],
@@ -23,7 +25,7 @@ class Group:
             users=[User.from_json(user) for user in json_data['users']]
         )
 
-    def to_json(self) -> dict:
+    def to_json(self) -> dict[str, Any]:
         return {
             "groupId": self.groupId,
             "groupName": self.groupName,

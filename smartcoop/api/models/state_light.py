@@ -1,12 +1,14 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
 from typing import Any
 
-@dataclass
+@dataclass(frozen=True)
 class StateLight:
     state: str
 
     @staticmethod
-    def from_json(json_data: Any) -> 'StateLight':
+    def from_json(json_data: dict[str, Any]) -> StateLight:
         return StateLight(
             state=json_data['state']
         )

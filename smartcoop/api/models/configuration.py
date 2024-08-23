@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
 from typing import Optional, Any
 from .configuration_general import ConfigurationGeneral
@@ -5,7 +7,7 @@ from .configuration_connectivity import ConfigurationConnectivity
 from .configuration_door import ConfigurationDoor
 from .configuration_light import ConfigurationLight
 
-@dataclass
+@dataclass(frozen=True)
 class Configuration:
     general: ConfigurationGeneral
     connectivity: ConfigurationConnectivity
@@ -13,7 +15,7 @@ class Configuration:
     light: Optional[ConfigurationLight] = None
 
     @staticmethod
-    def from_json(json_data: Any) -> 'Configuration':
+    def from_json(json_data: dict[str, Any]) -> Configuration:
         return Configuration(
             general=ConfigurationGeneral.from_json(json_data['general']),
             connectivity=ConfigurationConnectivity.from_json(json_data['connectivity']),
@@ -21,7 +23,7 @@ class Configuration:
             light=ConfigurationLight.from_json(json_data['light']) if json_data.get('light') else None
         )
 
-    def to_json(self) -> dict:
+    def to_json(self) -> dict[str, dict[str, Any] | None]:
         return {
             "general": self.general.to_json(),
             "connectivity": self.connectivity.to_json(),

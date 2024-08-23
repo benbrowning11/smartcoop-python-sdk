@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
 from typing import Optional, Any
 from .state_connectivity import StateConnectivity
@@ -5,7 +7,7 @@ from .state_door import StateDoor
 from .state_general import StateGeneral
 from .state_light import StateLight
 
-@dataclass
+@dataclass(frozen=True)
 class State:
     general: StateGeneral
     connectivity: StateConnectivity
@@ -13,7 +15,7 @@ class State:
     light: Optional[StateLight] = None
 
     @staticmethod
-    def from_json(json_data: Any) -> 'State':
+    def from_json(json_data: dict[str, Any]) -> State:
         return State(
             general=StateGeneral.from_json(json_data['general']),
             connectivity=StateConnectivity.from_json(json_data['connectivity']),

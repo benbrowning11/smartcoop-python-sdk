@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
 from typing import Optional, Any
 
-@dataclass
+@dataclass(frozen=True)
 class Action:
     name: str
     description: str
@@ -10,7 +12,7 @@ class Action:
     pending: Optional[str] = None
 
     @staticmethod
-    def from_json(json_data: Any) -> 'Action':
+    def from_json(json_data: dict[str, Any]) -> Action:
         return Action(
             name=json_data['actionName'],
             description=json_data['description'],

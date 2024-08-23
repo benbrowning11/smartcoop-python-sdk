@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
 from typing import Any
 
-@dataclass
+@dataclass(frozen=True)
 class ConfigurationLight:
     mode: str
     minutesBeforeClose: int
@@ -9,7 +11,7 @@ class ConfigurationLight:
     equipped: int
 
     @staticmethod
-    def from_json(json_data: Any) -> 'ConfigurationLight':
+    def from_json(json_data: dict[str, Any]) -> ConfigurationLight:
         return ConfigurationLight(
             mode=json_data['mode'],
             minutesBeforeClose=json_data['minutesBeforeClose'],
@@ -17,7 +19,7 @@ class ConfigurationLight:
             equipped=json_data['equipped']
         )
 
-    def to_json(self) -> dict:
+    def to_json(self) -> dict[str, Any]:
         return {
             "mode": self.mode,
             "minutesBeforeClose": self.minutesBeforeClose,

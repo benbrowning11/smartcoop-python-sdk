@@ -1,4 +1,4 @@
-from typing import List
+
 from smartcoop.client import SmartCoopClient
 from smartcoop.api.models import Device, Action, Configuration, Group, User, GroupSubset
 
@@ -6,7 +6,7 @@ class Omlet:
     def __init__(self, client: SmartCoopClient):
         self.client = client
 
-    def get_devices(self) -> List[Device]:
+    def get_devices(self) -> list[Device]:
         endpoint = 'device'
         response = self.client.get(endpoint)
         devices = [Device.from_json(device_json) for device_json in response]
@@ -26,7 +26,7 @@ class Omlet:
         endpoint = f'device/{device_id}/configuration'
         self.client.patch(endpoint, json=configuration.to_json())
 
-    def get_groups(self) -> List[Group]:
+    def get_groups(self) -> list[Group]:
         endpoint = 'group'
         response = self.client.get(endpoint)
         groups = [Group.from_json(group_json) for group_json in response]

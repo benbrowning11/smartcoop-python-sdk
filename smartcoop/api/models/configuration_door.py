@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
 from typing import Any
 
-@dataclass
+@dataclass(frozen=True)
 class ConfigurationDoor:
     doorType: str
     openMode: str
@@ -15,7 +17,7 @@ class ConfigurationDoor:
     colour: str
 
     @staticmethod
-    def from_json(json_data: Any) -> 'ConfigurationDoor':
+    def from_json(json_data: dict[str, Any]) -> ConfigurationDoor:
         return ConfigurationDoor(
             doorType=json_data['doorType'],
             openMode=json_data['openMode'],
@@ -29,7 +31,7 @@ class ConfigurationDoor:
             colour=json_data['colour']
         )
 
-    def to_json(self) -> dict:
+    def to_json(self) -> dict[str, Any]:
         return {
             "doorType": self.doorType,
             "openMode": self.openMode,

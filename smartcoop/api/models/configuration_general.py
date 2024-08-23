@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
 from typing import Optional, Any
 
-@dataclass
+@dataclass(frozen=True)
 class ConfigurationGeneral:
     datetime: str
     timezone: str
@@ -16,7 +18,7 @@ class ConfigurationGeneral:
     useDst: Optional[bool] = None
 
     @staticmethod
-    def from_json(json_data: Any) -> 'ConfigurationGeneral':
+    def from_json(json_data: dict[str, Any]) -> ConfigurationGeneral:
         return ConfigurationGeneral(
             datetime=json_data['datetime'],
             timezone=json_data['timezone'],
@@ -31,7 +33,7 @@ class ConfigurationGeneral:
             statusUpdatePeriod=json_data['statusUpdatePeriod']
         )
 
-    def to_json(self) -> dict:
+    def to_json(self) -> dict[str, Any]:
         return {
             "datetime": self.datetime,
             "timezone": self.timezone,

@@ -1,18 +1,20 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
-from typing import Optional, List, Any
+from typing import Optional, Any
 from .group_subset import GroupSubset
 
-@dataclass
+@dataclass(frozen=True)
 class User:
     firstName: str
     lastName: str
     userId: Optional[str] = None
     emailAddress: Optional[str] = None
     siteLink: Optional[str] = None
-    invites: Optional[List[GroupSubset]] = None
+    invites: Optional[list[GroupSubset]] = None
 
     @staticmethod
-    def from_json(json_data: Any) -> 'User':
+    def from_json(json_data: dict[str, Any]) -> User:
         return User(
             userId=json_data.get('userId'),
             firstName=json_data['firstName'],
@@ -22,7 +24,7 @@ class User:
             invites=[GroupSubset.from_json(invite) for invite in json_data['invites']] if json_data.get('invites') else None
         )
 
-    def to_json(self) -> dict:
+    def to_json(self) -> dict[str, Any]:
         return {
             "userId": self.userId,
             "firstName": self.firstName,
