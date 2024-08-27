@@ -9,9 +9,9 @@ class GroupSubset:
     groupName: str
     access: str
 
-    @staticmethod
-    def from_json(json_data: dict[str, Any]) -> GroupSubset:
-        return GroupSubset(
+    @classmethod
+    def from_json(cls, json_data: dict[str, Any]) -> GroupSubset:
+        return cls(
             groupId=json_data['groupId'],
             groupName=json_data['groupName'],
             access=json_data['access']

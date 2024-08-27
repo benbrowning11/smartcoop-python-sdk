@@ -42,3 +42,7 @@ class State:
     
     def to_json(self) -> dict[str, dict[str, Any] | None]:
         return self._data
+
+    @classmethod
+    def from_json(cls, json_data: dict[str, dict[str, Any] | None]) -> State:
+        return cls(_data=json_data)

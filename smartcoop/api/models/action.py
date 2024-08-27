@@ -11,8 +11,8 @@ class Action:
     url: str
     pending: Optional[str] = None
 
-    @staticmethod
-    def from_json(json_data: dict[str, Any]) -> Action:
+    @classmethod
+    def from_json(cls, json_data: dict[str, Any]) -> Action:
         return Action(
             name=json_data['actionName'],
             description=json_data['description'],

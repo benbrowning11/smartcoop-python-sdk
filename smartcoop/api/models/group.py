@@ -14,9 +14,9 @@ class Group:
     users: List[User]
     access: Optional[str] = None
 
-    @staticmethod
-    def from_json(json_data: dict[str, Any]) -> Group:
-        return Group(
+    @classmethod
+    def from_json(cls, json_data: dict[str, Any]) -> Group:
+        return cls(
             groupId=json_data['groupId'],
             groupName=json_data['groupName'],
             access=json_data.get('access'),

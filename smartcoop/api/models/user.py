@@ -13,9 +13,9 @@ class User:
     siteLink: Optional[str] = None
     invites: Optional[list[GroupSubset]] = None
 
-    @staticmethod
-    def from_json(json_data: dict[str, Any]) -> User:
-        return User(
+    @classmethod
+    def from_json(cls, json_data: dict[str, Any]) -> User:
+        return cls(
             userId=json_data.get('userId'),
             firstName=json_data['firstName'],
             lastName=json_data['lastName'],
