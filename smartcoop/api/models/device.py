@@ -25,3 +25,9 @@ class Device:
             configuration=Configuration.from_json(json_data['configuration']),
             actions=[Action.from_json(action) for action in json_data['actions']]
         )
+
+    def tryGetAction(self, action_name: str) -> Action:
+        for action in self.actions:
+            if action.name == action_name:
+                return action
+        return None

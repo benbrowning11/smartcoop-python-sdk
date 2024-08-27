@@ -1,32 +1,57 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Optional, Any
-from .configuration_general import ConfigurationGeneral
-from .configuration_connectivity import ConfigurationConnectivity
-from .configuration_door import ConfigurationDoor
-from .configuration_light import ConfigurationLight
-
-@dataclass(frozen=True)
+from typing import Any
+from ..exception import SetValueNotFoundError, ParameterValueNotFoundError, KeyFormatError
+@dataclass
 class Configuration:
-    general: ConfigurationGeneral
-    connectivity: ConfigurationConnectivity
-    door: Optional[ConfigurationDoor] = None
-    light: Optional[ConfigurationLight] = None
+    _data: dict[str, dict[str, Any] | None]
+        
+    def getConfigurationValue(self, key: str | tuple[str, str]) -> dict[str, Any] | None:
+        if isinstance(key, str):
+            key = key.split('.')
+            if len(key) != 2:
+                raise KeyFormatError(key)
+            
+        return self._getFromData(key[0], key[1])
+    
+    def setConfigurationValue(self, key: str | tuple[str, str], value: Any) -> True:
+        if isinstance(key, str):
+            key = key.split('.') 
+            
+        if len(key) != 2 or key[0] is None or key[1] is None:
+            raise KeyFormatError(key)
+        
+        if not self.isSet(key[0]):
+            self._data[key[0]] = {}
 
-    @staticmethod
-    def from_json(json_data: dict[str, Any]) -> Configuration:
-        return Configuration(
-            general=ConfigurationGeneral.from_json(json_data['general']),
-            connectivity=ConfigurationConnectivity.from_json(json_data['connectivity']),
-            door=ConfigurationDoor.from_json(json_data['door']) if json_data.get('door') else None,
-            light=ConfigurationLight.from_json(json_data['light']) if json_data.get('light') else None
-        )
+        self._data[key[0]][key[1]] = value
+            
+        return True
+
+    def _getFromData(self, setName: str, valueName: str) -> Any:
+        if self._data.get(setName) is None or not isinstance(self._data.get(setName), dict):
+            raise SetValueNotFoundError(setName)
+        elif self._data[setName].get(valueName) is None:
+            raise ParameterValueNotFoundError(setName, valueName)
+        return self._data[setName][valueName]
+
+    def isSet(self, key: str | tuple[str, str]) -> bool:
+        if isinstance(key, str):
+            key = key.split('.')
+            if len(key) > 2:
+                raise KeyFormatError(key)
+        return self._data.get(key[0]) is not None \
+                and (len(key) == 1 \
+                    or self._data[key[0]].get(key[1]) is not None)
+
+    def getAvailableSets(self) -> list[str]:
+        return list(self._data.keys())
+    
+    def getAvailableValues(self, setName: str) -> list[str] | None:
+        if not self.isSet(setName):
+            return None
+        return list(self._data[setName].keys())
 
     def to_json(self) -> dict[str, dict[str, Any] | None]:
-        return {
-            "general": self.general.to_json(),
-            "connectivity": self.connectivity.to_json(),
-            "door": self.door.to_json() if self.door else None,
-            "light": self.light.to_json() if self.light else None,
-        }
+        return self._data
