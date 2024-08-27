@@ -1,22 +1,22 @@
-from .models.device import Device
+
 
 class SetValueNotFoundError(Exception):
-    def __init__(self, setValue: str, device: Device | None = None):
-        self.device = device
+    def __init__(self, setValue: str, deviceName: str | None = None):
+        self.deviceName = deviceName
         self.setValue = setValue
         message = f"Set: '{setValue}' not found" 
-        if device:
-            message += f" for device: '{device.deviceId}'"
+        if deviceName:
+            message += f" for device: '{deviceName}'"
         super().__init__(message)
 
 class ParameterValueNotFoundError(Exception):
-    def __init__(self, setValue: str, parameterValue: str, device: Device | None = None):
-        self.device = device
+    def __init__(self, setValue: str, parameterValue: str, deviceName: str | None = None):
+        self.deviceName = deviceName
         self.setValue = setValue
         self.parameterValue = parameterValue
         message = f"Parameter value: '{parameterValue}' not found in set: '{setValue}'"
-        if device:
-            message += f" for device: '{device.deviceId}'"
+        if deviceName:
+            message += f" for device: '{deviceName}'"
         super().__init__(message)
 
 class KeyFormatError(Exception):

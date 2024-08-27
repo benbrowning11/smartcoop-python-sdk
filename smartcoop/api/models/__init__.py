@@ -4,12 +4,4 @@ from .state import State
 from .device import Device
 from .group import Group
 from .user import User
-from .configuration_connectivity import ConfigurationConnectivity
-from .configuration_door import ConfigurationDoor
-from .configuration_general import ConfigurationGeneral
-from .configuration_light import ConfigurationLight
-from .state_connectivity import StateConnectivity
 from .group_subset import GroupSubset
-from .state_door import StateDoor
-from .state_general import StateGeneral
-from .state_light import StateLight

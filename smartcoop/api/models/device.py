@@ -21,8 +21,8 @@ class Device:
             deviceId=json_data['deviceId'],
             name=json_data['name'],
             deviceType=json_data['deviceType'],
-            state=State.from_json(json_data['state']),
-            configuration=Configuration.from_json(json_data['configuration']),
+            state=State(json_data['state']),
+            configuration=Configuration(json_data['configuration']),
             actions=[Action.from_json(action) for action in json_data['actions']]
         )
 

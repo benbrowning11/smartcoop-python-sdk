@@ -39,3 +39,6 @@ class State:
         if not self.isSet(setName):
             return None
         return list(self._data[setName].keys())
+    
+    def to_json(self) -> dict[str, dict[str, Any] | None]:
+        return self._data
